@@ -66,14 +66,14 @@ it('propagates the default title', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <title>Foo</title>
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Foo">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Foo">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","name":"Foo","url":"https:\/\/mywebsite.com"}
     </script>
@@ -91,14 +91,14 @@ it('propagates the default title and template', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <title>--Foo--</title>
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Foo">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Foo">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","name":"Foo","url":"https:\/\/mywebsite.com"}
     </script>
@@ -116,14 +116,14 @@ it('propagates the default title and concat template', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <title>Foo - Bar</title>
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Foo">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Foo">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","name":"Foo","url":"https:\/\/mywebsite.com"}
     </script>
@@ -141,14 +141,14 @@ it('propagates the default title and blank template', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <title>Foo</title>
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Foo">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Foo">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","name":"Foo","url":"https:\/\/mywebsite.com"}
     </script>
@@ -171,14 +171,14 @@ it('overrides the title', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <title>Bar</title>
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Baz">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="FooBar">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","name":"FooBarBaz","url":"https:\/\/mywebsite.com"}
     </script>
@@ -196,14 +196,14 @@ it('propagates the default description', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <meta name="description" content="Foo">
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:description" content="Foo">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:description" content="Foo">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","description":"Foo","url":"https:\/\/mywebsite.com"}
     </script>
@@ -226,14 +226,14 @@ it('overrides the description', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <meta name="description" content="Bar">
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:description" content="Baz">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:description" content="FooBar">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","description":"FooBarBaz","url":"https:\/\/mywebsite.com"}
     </script>
@@ -251,12 +251,12 @@ it('propagates the default keywords', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <meta name="keywords" content="Foo,Bar">
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com"}
     </script>
@@ -276,12 +276,12 @@ it('overrides the keywords', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <meta name="keywords" content="Bar,Baz">
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com"}
     </script>
@@ -302,15 +302,15 @@ it('syncs default keywords to tags', function (): void {
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <meta name="keywords" content="Foo,Bar">
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="article:section" content="Baz">
     <meta property="article:tag" content="Foo">
     <meta property="article:tag" content="Bar">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com"}
     </script>
@@ -329,12 +329,12 @@ it('propagates the default url', function (): void {
         <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://foo.bar">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/foo.bar"}
     </script>
@@ -355,12 +355,12 @@ it('overrides the url', function (): void {
         <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://bar.baz">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/baz.foo"}
     </script>
@@ -379,12 +379,12 @@ it('propagates the default canonical url', function (): void {
         <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <link rel="canonical" href="https://foo.bar">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com"}
     </script>
@@ -451,16 +451,16 @@ it('propagates the default images', function (): void {
         <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://mywebsite/image-1.png">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://mywebsite/image-1.png">
     <meta property="og:image" content="https://mywebsite/image-2.png">
     <meta property="og:image" content="https://mywebsite/image-3.png">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","image":["https:\/\/mywebsite\/image-1.png","https:\/\/mywebsite\/image-2.png","https:\/\/mywebsite\/image-3.png"],"url":"https:\/\/mywebsite.com"}
     </script>
@@ -488,15 +488,15 @@ it('overrides the images', function (): void {
         <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
     <link rel="canonical" href="https://mywebsite.com">
-<!-- Twitter Cards -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://mywebsite/image-2.png">
-<!-- Open Graph -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://mywebsite/image-3.png">
     <meta property="og:image" content="https://mywebsite/image-4.png">
     <meta property="og:url" content="https://mywebsite.com">
-<!-- JSON-LD -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {"@context":"https:\/\/schema.org","@type":"WebPage","image":["https:\/\/mywebsite\/image-5.png"],"url":"https:\/\/mywebsite.com"}
     </script>

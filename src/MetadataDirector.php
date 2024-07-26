@@ -246,7 +246,7 @@ final class MetadataDirector implements BuildsMetadata
         $this->propagateDefaults();
 
         $generated = implode(
-            "\n",
+            "\n    ",
             array_map(
                 fn (GeneratesMetadata $generator): string => trim(
                     /** @phpstan-ignore-next-line */
