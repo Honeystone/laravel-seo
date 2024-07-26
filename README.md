@@ -6,13 +6,21 @@
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/php)
 [![Static Badge](https://img.shields.io/badge/honeystone-fa6900)](https://honeystone.com)
 
-
 The Honeystone SEO package makes configuring SEO metadata from anywhere within your Laravel application a breeze.
 
 Included are metadata generators for general metadata, X (Formally Twitter) Cards, Open Graph and JSON-LD Schema.
 
 This package was designed with extensibility in mind, so your own custom metadata generators can also be added with
 ease.
+
+## Support us
+
+[![Support Us](https://honeystone.com/images/github/support-us.webp)](https://honeystone.com)
+
+We are committed to delivering high-quality open source packages maintained by the team at Honeystone. If you would
+like to support our efforts, simply use our packages, recommend them and contribute.
+
+If you need any help with your project, or require any custom development, please [get in touch](https://honeystone.com/contact-us).
 
 ## Installation
 
