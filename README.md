@@ -1,9 +1,9 @@
 # Honeystone SEO Configurator for Laravel
 
 ![Static Badge](https://img.shields.io/badge/tests-passing-green)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/honeystone/laravel-seo)](https://packagist.org/packages/honeystone/laravel-seo)
 ![GitHub License](https://img.shields.io/github/license/honeystone/laravel-seo)
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/php)
+![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/illuminate%2Fcontracts?label=laravel)
 [![Static Badge](https://img.shields.io/badge/honeystone-fa6900)](https://honeystone.com)
 
 The Honeystone SEO package makes configuring SEO metadata from anywhere within your Laravel application a breeze.
