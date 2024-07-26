@@ -2,6 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/tests-passing-green)
 ![GitHub License](https://img.shields.io/github/license/honeystone/laravel-seo)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/honeystone/laravel-seo)](https://packagist.org/packages/honeystone/laravel-seo)
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/php)
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/illuminate%2Fcontracts?label=laravel)
 [![Static Badge](https://img.shields.io/badge/honeystone-fa6900)](https://honeystone.com)
