@@ -4,6 +4,76 @@ declare(strict_types=1);
 
 namespace Honeystone\Seo\Contracts;
 
+use Honeystone\Seo\OpenGraph\AudioProperties;
+use Honeystone\Seo\OpenGraph\Contracts\Type;
+use Honeystone\Seo\OpenGraph\ImageProperties;
+use Honeystone\Seo\OpenGraph\VideoProperties;
+use Spatie\SchemaOrg\Graph;
+use Spatie\SchemaOrg\MultiTypedEntity;
+
+/**
+ * @see MetaGenerator
+ * @method self metaTitle(string|null $value, string|false|null $template = null)
+ * @method self metaTitleTemplate(string|null $value)
+ * @method self metaDescription(string|null $value)
+ * @method self metaKeywords(string[] $value)
+ * @method self metaCanonical(string|null $value)
+ * @method self metaCanonicalEnabled(bool $value)
+ * @method self metaRobots(string[] $value)
+ * @method self metaTag(string $property, string|string[] $content)
+ * @method self metaConfig(mixed[] $data)
+ * @method self metaDefaults(mixed[] $data)
+ *
+ * @see TwitterGenerator
+ * @method self twitterEnabled(bool $value)
+ * @method self twitterSite(string|null $value)
+ * @method self twitterCreator(string|null $value)
+ * @method self twitterTitle(string|null $value)
+ * @method self twitterDescription(string|null $value)
+ * @method self twitterImage(string|null $value)
+ * @method self twitterConfig(mixed[] $data)
+ * @method self twitterDefaults(mixed[] $data)
+ *
+ * @see OpenGraphGenerator
+ * @method string openGraphPrefix()
+ * @method self openGraphEnabled(bool $value)
+ * @method self openGraphSite(string|null $value)
+ * @method self openGraphType(string|Type $value)
+ * @method self openGraphTitle(string|null $value)
+ * @method self openGraphDescription(string|null $value)
+ * @method self openGraphImage(string|ImageProperties|null $value)
+ * @method self openGraphImages(string[]|ImageProperties[] $value)
+ * @method self openGraphUrl(string|null $value)
+ * @method self openGraphAudio(string|string[]|AudioProperties|AudioProperties[]|null $value)
+ * @method self openGraphVideo(string|VideoProperties|null $value)
+ * @method self openGraphVideos(string[]|VideoProperties[] $value)
+ * @method self openGraphDeterminer(string $value)
+ * @method self openGraphLocale(string|null $value)
+ * @method self openGraphAlternateLocales(string[] $value)
+ * @method self openGraphProperty(string $property, string|string[] $content)
+ * @method self openGraphConfig(mixed[] $data)
+ * @method self openGraphDefaults(mixed[] $data)
+ *
+ * @see JsonLdGenerator
+ * @method self jsonLdEnabled(bool $value)
+ * @method self jsonLdType(string|null $value)
+ * @method self jsonLdName(string|null $value)
+ * @method self jsonLdTitle(string|null $value)
+ * @method self jsonLdDescription(string|null $value)
+ * @method self jsonLdImage(string|null $value)
+ * @method self jsonLdImages(string[] $value)
+ * @method self jsonLdUrl(string|null $value)
+ * @method self jsonLdNonce(string $value)
+ * @method self jsonLdProperty(string $property, string|string[] $content)
+ * @method Graph jsonLdGraph()
+ * @method MultiTypedEntity jsonLdMulti()
+ * @method BaseType jsonLdSchema()
+ * @method self jsonLdImport(Graph|MultiTypedEntity|BaseType $schema)
+ * @method self jsonLdExpect(string ...$components)
+ * @method self jsonLdCheckIn(string ...$components)
+ * @method self jsonLdConfig(mixed[] $data)
+ * @method self jsonLdDefaults(mixed[] $data)
+ */
 interface BuildsMetadata extends GeneratesMetadata
 {
     /**

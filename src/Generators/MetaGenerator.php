@@ -34,11 +34,7 @@ final class MetaGenerator implements GeneratesMetadata
     public function title(?string $value, string|false|null $template = null): self
     {
         if ($template !== null) {
-            $this->titleTemplate($template);
-        }
-
-        if ($template === false) {
-            $this->titleTemplate('');
+            $this->titleTemplate($template === false ? '' : $template);
         }
 
         return $this->data(__FUNCTION__, $value);

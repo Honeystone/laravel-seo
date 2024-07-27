@@ -1292,6 +1292,73 @@ END
     );
 });
 
+it('sets the json-ld id to url', function (): void {
+
+    seo()->jsonLdId();
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","@id":"https:\/\/mywebsite.com"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the json-ld id to url and appends hash', function (): void {
+
+    seo()->jsonLdId(
+        useUrl: true,
+        append:'#LocalBusiness',
+    );
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","@id":"https:\/\/mywebsite.com#LocalBusiness"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the json-ld id to a value', function (): void {
+
+    seo()->jsonLdId('Foo');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","@id":"Foo"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the json-ld id to a value and append', function (): void {
+
+    seo()->jsonLdId('Foo', '#Bar');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","@id":"Foo#Bar"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
 it('sets the json-ld name', function (): void {
 
     seo()

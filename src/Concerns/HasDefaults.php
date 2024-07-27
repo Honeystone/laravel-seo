@@ -21,10 +21,13 @@ trait HasDefaults
      */
     public function defaults(array $data): self
     {
-        $this->defaults += Arr::where(
-            $data,
-            fn (mixed $value, string $key): bool => method_exists($this, Str::camel($key)),
-        );
+        $this->defaults = [
+            ...$this->defaults,
+            ...Arr::where(
+                $data,
+                fn (mixed $value, string $key): bool => method_exists($this, Str::camel($key)),
+            ),
+        ];
 
         return $this;
     }

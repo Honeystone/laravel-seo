@@ -67,11 +67,30 @@ final class JsonLdGenerator implements GeneratesMetadata
     /**
      * @param string|class-string<BaseType>|null $value
      *
-     * @return self
+     * @return $this
      */
     public function type(?string $value): self
     {
         return $this->data(__FUNCTION__, $value);
+    }
+
+    /**
+     * @return $this
+     */
+    public function id(?string $value = null, string $append = '', ?bool $useUrl = null): self
+    {
+        if (
+            $useUrl ||
+            ($value === null && $append === '' && $useUrl === null)
+        ) {
+            return $this->data(__FUNCTION__, $this->getRaw('url', url()->current()).$append);
+        }
+
+        if ($value !== null) {
+            return $this->data(__FUNCTION__, $value.$append);
+        }
+
+        return $this->data(__FUNCTION__, null);
     }
 
     /**
@@ -186,6 +205,7 @@ final class JsonLdGenerator implements GeneratesMetadata
         }
 
         return $this->schema
+            ->identifier($this->getRaw('id'))
             ->name($this->getRaw('name'))
             ->description($this->getRaw('description'))
             ->image($this->getRaw('images'))
@@ -279,6 +299,7 @@ final class JsonLdGenerator implements GeneratesMetadata
         return json_encode(array_filter([
             '@context' => 'https://schema.org',
             '@type' => $data['type'] ?? $this->config['type'] ?? 'WebPage',
+            '@id' => $data['id'] ?? null,
             'name' => $data['name'] ?? $this->config['name'] ?? null,
             'description' => $data['description'] ?? $this->config['description'] ?? null,
             'image' => array_values($data['images'] ?? $this->config['images'] ?? []),
