@@ -57,6 +57,9 @@ return [
             'images' => [],
             'url' => null, //null to use current url
             'custom' => [],
+
+            //determines if the configured json-ld is automatically placed on the graph
+            'place-on-graph' => true,
         ],
     ],
 

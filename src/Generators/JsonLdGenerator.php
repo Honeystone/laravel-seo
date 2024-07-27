@@ -9,6 +9,7 @@ use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 use RuntimeException;
 use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Graph;
@@ -16,9 +17,9 @@ use Spatie\SchemaOrg\MultiTypedEntity;
 
 use function array_diff;
 use function array_filter;
-use function array_key_exists;
 use function array_unique;
 use function array_values;
+use function class_exists;
 use function compact;
 use function count;
 use function implode;
@@ -37,6 +38,8 @@ final class JsonLdGenerator implements GeneratesMetadata
     private array $custom = [];
 
     private Graph|MultiTypedEntity|BaseType|null $imported = null;
+
+    private ?BaseType $first = null;
 
     /**
      * @var array<string>
@@ -157,6 +160,36 @@ final class JsonLdGenerator implements GeneratesMetadata
         return $this->imported = new MultiTypedEntity();
     }
 
+    public function first(): ?BaseType
+    {
+        if (
+            !($this->config['use-schema-org'] ?? true) ||
+            !class_exists(BaseType::class)
+        ) {
+            return null;
+        }
+
+        $typeClass = $this->getRaw('type', 'WebPage');
+
+        if (!Str::startsWith($typeClass, 'Spatie\\SchemaOrg\\')) {
+            $typeClass = 'Spatie\\SchemaOrg\\'.Str::studly($typeClass);
+        }
+
+        if (!class_exists($typeClass)) {
+            throw new RuntimeException("Invalid schema type `{$typeClass}`.");
+        }
+
+        if (!$this->first instanceof $typeClass) {
+            $this->first = new $typeClass();
+        }
+
+        return $this->first
+            ->name($this->getRaw('name'))
+            ->description($this->getRaw('description'))
+            ->image($this->getRaw('images'))
+            ->url($this->getRaw('url', url()->current()));
+    }
+
     /**
      * @return $this
      */
@@ -209,28 +242,48 @@ final class JsonLdGenerator implements GeneratesMetadata
      */
     private function generateJsonLd(array $data): string
     {
-        $imported = $this->imported !== null ? $this->imported->toArray() : [];
-
         $flags = JSON_UNESCAPED_UNICODE;
 
         if ($this->config['pretty'] ?? false) {
             $flags |= JSON_PRETTY_PRINT;
         }
 
-        if (array_key_exists('@graph', $imported)) {
-            return json_encode($imported, $flags);
+        if (
+            $this->imported instanceof Graph ||
+            $this->imported instanceof MultiTypedEntity
+        ) {
+
+            if (
+                ($this->config['place-on-graph'] ?? false) &&
+                $this->first() !== null
+            ) {
+                $this->imported->add($this->first());
+            }
+
+            if ($this->imported instanceof Graph) {
+                return json_encode($this->imported->toArray(), $flags);
+            }
+        }
+
+        if ($this->first() !== null && $this->imported === null) {
+
+            return json_encode([
+                ...$this->first()->toArray(),
+                ...($this->config['custom'] ?? []),
+                ...$this->custom,
+            ], $flags);
         }
 
         return json_encode(array_filter([
             '@context' => 'https://schema.org',
-            '@type' => $data['type'] ?? 'WebPage',
+            '@type' => $data['type'] ?? $this->config['type'] ?? 'WebPage',
             'name' => $data['name'] ?? $this->config['name'] ?? null,
             'description' => $data['description'] ?? $this->config['description'] ?? null,
             'image' => array_values($data['images'] ?? $this->config['images'] ?? []),
             'url' => $data['url'] ?? $this->config['url'] ?? url()->current(),
             ...($this->config['custom'] ?? []),
             ...$this->custom,
-            ...$imported,
+            ...($this->imported?->toArray() ?? []),
         ]), $flags);
     }
 

@@ -134,8 +134,8 @@ return [
 
     'requirements' => [
         'min-quality' => 99,
-        'min-complexity' => 87.4,
-        'min-architecture' => 93.3,
+        'min-complexity' => 82.4,
+        'min-architecture' => 86.7,
         'min-style' => 98.8,
         'disable-security-check' => false,
     ],

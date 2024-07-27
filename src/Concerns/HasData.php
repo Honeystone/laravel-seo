@@ -73,6 +73,23 @@ trait HasData
         return $this->data;
     }
 
+    private function getRaw(string $key, mixed $default = null, bool $baseOnConfig = true): mixed
+    {
+        $value = null;
+
+        /** @phpstan-ignore-next-line */
+        if ($baseOnConfig && property_exists($this, 'config')) {
+            $value = $this->config[$key] ?? $default;
+        }
+
+        /** @phpstan-ignore-next-line */
+        if (property_exists($this, 'defaults')) {
+            $value = $this->defaults[$key] ?? $value;
+        }
+
+        return $this->data[$key] ?? $value;
+    }
+
     private function applyDefaults(): void
     {
         /** @phpstan-ignore-next-line */

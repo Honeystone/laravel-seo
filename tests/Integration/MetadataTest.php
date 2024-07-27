@@ -1388,6 +1388,13 @@ END
 
 it('builds a json-ld graph', function (): void {
 
+    seo()->config([
+        'generators' => [
+            //place-on-graph was not available on 1.0, so we'll remove it from the config
+            JsonLdGenerator::class => ['place-on-graph' => null],
+        ],
+    ]);
+
     seo()->jsonLdGraph()
         ->organization('honeystone')
             ->name('Honeystone')
@@ -1412,6 +1419,13 @@ END
 
 it('builds a json-ld multi', function (): void {
 
+    seo()->config([
+        'generators' => [
+            //place-on-graph was not available on 1.0, so we'll remove it from the config
+            JsonLdGenerator::class => ['place-on-graph' => null],
+        ],
+    ]);
+
     seo()->jsonLdMulti()
         ->organization()
             ->legalName('George Palmer inc,');
@@ -1435,6 +1449,13 @@ END
 });
 
 it('imports a json-ld graph', function (): void {
+
+    seo()->config([
+        'generators' => [
+            //place-on-graph was not available on 1.0, so we'll remove it from the config
+            JsonLdGenerator::class => ['place-on-graph' => null],
+        ],
+    ]);
 
     $graph = new Graph();
 
@@ -1477,6 +1498,13 @@ END
 
 it('imports a json-ld multi type', function (): void {
 
+    seo()->config([
+        'generators' => [
+            //place-on-graph was not available on 1.0, so we'll remove it from the config
+            JsonLdGenerator::class => ['place-on-graph' => null],
+        ],
+    ]);
+
     $multi = new MultiTypedEntity();
 
     $multi->person()
@@ -1498,6 +1526,153 @@ it('imports a json-ld multi type', function (): void {
 <!-- End Honeystone SEO -->
 END
     );
+});
+
+it('places configured json-ld on the graph', function (): void {
+
+    seo()->config([
+        'generators' => [
+            JsonLdGenerator::class => [
+                'place-on-graph' => true,
+            ],
+        ],
+    ]);
+
+    seo()
+        ->description('foobarbaz')
+        ->jsonLdType('Person')
+        ->jsonLdName('Foo')
+        ->jsonLdGraph()
+            ->organization()
+                ->name('Bar');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@graph":[{"@type":"Organization","name":"Bar"},{"@type":"Person","name":"Foo","description":"foobarbaz","url":"https:\/\/mywebsite.com"}]}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('places configured json-ld on multi', function (): void {
+
+    seo()->config([
+        'generators' => [
+            JsonLdGenerator::class => [
+                'place-on-graph' => true,
+            ],
+        ],
+    ]);
+
+    seo()
+        ->description('foobarbaz')
+        ->jsonLdType('Person')
+        ->jsonLdName('Foo')
+        ->jsonLdMulti()
+            ->organization()
+                ->name('Bar');
+
+    //the name will be Foo because the multi must exist first to place the json-ld on it
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":["Organization","Person"],"name":"Foo","description":"foobarbaz","url":"https:\/\/mywebsite.com"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('provides access to configured schema-org', function (): void {
+
+    seo()
+        ->title('Foo')
+        ->jsonLdFirst()
+            ->description('Bar');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","description":"Bar","name":"Foo"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+test('configured values take precedence over schema-org values', function (): void {
+
+    seo()
+        ->title('Foo')
+        ->jsonLdFirst()
+            ->name('Bar');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","name":"Foo"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+test('configured values can be modified after accessing schema-org', function (): void {
+
+    seo()
+        ->title('Foo')
+        ->jsonLdFirst()
+            ->name('Bar');
+
+    seo()->jsonLdName('Baz');
+
+    expect(trim((string) seo()->generate('json-ld')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","url":"https:\/\/mywebsite.com","name":"Baz"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('does not require schema-org to function', function (): void {
+
+    seo()->config([
+        'generators' => [
+            JsonLdGenerator::class => [
+                'use-schema-org' => false,
+            ],
+        ],
+    ]);
+
+    seo()
+        ->title('Foo')
+        ->description('Bar');
+
+    expect(seo()->jsonLdFirst())->toBeNull()
+        ->and(trim((string) seo()->generate('json-ld')))->toBe(
+            <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+        {"@context":"https:\/\/schema.org","@type":"WebPage","name":"Foo","description":"Bar","url":"https:\/\/mywebsite.com"}
+    </script>
+<!-- End Honeystone SEO -->
+END
+        );
 });
 
 it('throws an exception for expected, but not checked in json-ld', function (): void {

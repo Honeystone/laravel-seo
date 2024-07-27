@@ -87,9 +87,10 @@ use function view;
  * @method self jsonLdUrl(string $value)
  * @method self jsonLdNonce(string $value)
  * @method self jsonLdProperty(string $property, string|string[] $content)
- * @method MultiTypedEntity jsonLdMulti()
  * @method Graph jsonLdGraph()
- * @method self jsonLdImport(Graph|BaseType $schema)
+ * @method MultiTypedEntity jsonLdMulti()
+ * @method BaseType jsonLdFirst()
+ * @method self jsonLdImport(Graph|MultiTypedEntity|BaseType $schema)
  * @method self jsonLdExpect(string ...$components)
  * @method self jsonLdCheckIn(string ...$components)
  * @method self jsonLdConfig(mixed[] $data)
@@ -97,7 +98,11 @@ use function view;
  */
 final class MetadataDirector implements BuildsMetadata
 {
-    use HasDefaults, HasConfig;
+    use HasDefaults;
+
+    use HasConfig {
+        config as private setConfig;
+    }
 
     public function __construct(
         private readonly RegistersGenerators $register,
@@ -250,9 +255,7 @@ final class MetadataDirector implements BuildsMetadata
             array_map(
                 fn (GeneratesMetadata $generator): string => trim(
                     /** @phpstan-ignore-next-line */
-                    (string) $generator
-                        ->config($this->getConfig('generators.'.$generator::class, []))
-                        ->generate(),
+                    (string) $generator->generate(),
                 ),
                 count($only) > 0 ?
                     $this->register->only($only) :
@@ -261,6 +264,17 @@ final class MetadataDirector implements BuildsMetadata
         );
 
         return view('honeystone-seo::layout', compact('generated'));
+    }
+
+    public function config(array $data): self
+    {
+        $this->setConfig($data);
+
+        foreach ($this->register->all() as $generator) {
+            $generator->config($this->getConfig('generators.'.$generator::class, []));
+        }
+
+        return $this;
     }
 
     private function propagateDefaults(): void
