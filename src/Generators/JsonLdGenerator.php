@@ -65,7 +65,9 @@ final class JsonLdGenerator implements GeneratesMetadata
     }
 
     /**
-     * @return $this
+     * @param string|class-string<BaseType>|null $value
+     *
+     * @return self
      */
     public function type(?string $value): self
     {
