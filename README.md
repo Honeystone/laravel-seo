@@ -159,6 +159,12 @@ The full baseline looks like this:
 </script>
 ```
 
+For your homepage you'll probably want to disable the title template:
+
+```php
+seo()->title('My Awesome Website!', template: false);
+```
+
 ### Meta methods
 
 The meta methods are provided by the `Honeystone\Seo\Generators\MetaGenerator` class.
@@ -421,8 +427,8 @@ It's highly likely you'll be building your graph from many locations around your
 controllers, view composers, view components, etc.
 
 This is where expectations come in. Simply specify your expectations, and then ensure the other parts of your
-application check in. If something failed to check in and exception will be thrown and conversely if something unexpected
-checked in and exception will also be thrown.
+application check in. If something failed to check in, an exception will be thrown. Conversely, if something unexpected
+checked in, an exception will also be thrown.
 
 ```php
 //perhaps in a controller
@@ -442,10 +448,61 @@ seo()
 
 You'll be warned immediately if `'featured-tags'` or `'contact'` fail to check in.
 
+This feature is entirely optional. Just don't set any expectations, or check in, and no exceptions will be thrown.
+
+### Model integration
+
+This package doesn't include any specific functionality for integrating models. Ultimately, you'll always need to map
+your model attributes to this package. For example, if your model has a `meta_description` attribute, you will need to
+map it to `description`, otherwise this package would not know to consume it.
+
+With this in mind, we have a simple pattern that should get you what you need.
+
+Start by adding a new method to your model, and set your metadata using the model's attributes within:
+
+```php
+use Honeystone\Seo\MetadataDirector;
+use Illuminate\Database\Eloquent\Model;
+
+class Page extends Model
+{
+    public function seo(): MetadataDirector
+    {
+        return seo()
+            ->title($this->meta_title)
+            ->description($this->meta_description)
+            ->jsonLdExpect('featured-items');
+    }
+}
+
+```
+
+Then in your controller, just call the method and chain any additional metadata:
+
+```php
+use Illuminate\Contracts\View\View;
+
+class PageController
+{
+    public function __invoke(Page $page): View
+    {
+        $page->seo()
+            ->jsonLdCheckIn('featured-items')
+            ->jsonLdGraph()
+                ->itemList()
+                    ->name('Featured items')
+                    ->itemListElement([
+                        //...
+                    ]);
+    }
+}
+
+```
+
 ### Custom generators
 
 To create a custom generator, simply implement the `Honeystone\Seo\Contracts\MetadataGenerator` contract and the
-add it to your config file in the generators section. You can also specify and configuration for your generator here
+add it to your config file in the generators section. You can also specify any configuration for your generator here
 too.
 
 ### Configuration
