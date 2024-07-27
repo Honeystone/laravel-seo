@@ -89,7 +89,7 @@ use function view;
  * @method self jsonLdProperty(string $property, string|string[] $content)
  * @method Graph jsonLdGraph()
  * @method MultiTypedEntity jsonLdMulti()
- * @method BaseType jsonLdFirst()
+ * @method BaseType jsonLdSchema()
  * @method self jsonLdImport(Graph|MultiTypedEntity|BaseType $schema)
  * @method self jsonLdExpect(string ...$components)
  * @method self jsonLdCheckIn(string ...$components)

@@ -39,7 +39,7 @@ final class JsonLdGenerator implements GeneratesMetadata
 
     private Graph|MultiTypedEntity|BaseType|null $imported = null;
 
-    private ?BaseType $first = null;
+    private ?BaseType $schema = null;
 
     /**
      * @var array<string>
@@ -160,7 +160,7 @@ final class JsonLdGenerator implements GeneratesMetadata
         return $this->imported = new MultiTypedEntity();
     }
 
-    public function first(): ?BaseType
+    public function schema(): ?BaseType
     {
         if (
             !($this->config['use-schema-org'] ?? true) ||
@@ -179,11 +179,11 @@ final class JsonLdGenerator implements GeneratesMetadata
             throw new RuntimeException("Invalid schema type `{$typeClass}`.");
         }
 
-        if (!$this->first instanceof $typeClass) {
-            $this->first = new $typeClass();
+        if (!$this->schema instanceof $typeClass) {
+            $this->schema = new $typeClass();
         }
 
-        return $this->first
+        return $this->schema
             ->name($this->getRaw('name'))
             ->description($this->getRaw('description'))
             ->image($this->getRaw('images'))
@@ -255,9 +255,9 @@ final class JsonLdGenerator implements GeneratesMetadata
 
             if (
                 ($this->config['place-on-graph'] ?? false) &&
-                $this->first() !== null
+                $this->schema() !== null
             ) {
-                $this->imported->add($this->first());
+                $this->imported->add($this->schema());
             }
 
             if ($this->imported instanceof Graph) {
@@ -265,10 +265,10 @@ final class JsonLdGenerator implements GeneratesMetadata
             }
         }
 
-        if ($this->first() !== null && $this->imported === null) {
+        if ($this->schema() !== null && $this->imported === null) {
 
             return json_encode([
-                ...$this->first()->toArray(),
+                ...$this->schema()->toArray(),
                 ...($this->config['custom'] ?? []),
                 ...$this->custom,
             ], $flags);

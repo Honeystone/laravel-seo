@@ -1593,7 +1593,7 @@ it('provides access to configured schema-org', function (): void {
 
     seo()
         ->title('Foo')
-        ->jsonLdFirst()
+        ->jsonLdSchema()
             ->description('Bar');
 
     expect(trim((string) seo()->generate('json-ld')))->toBe(
@@ -1612,7 +1612,7 @@ test('configured values take precedence over schema-org values', function (): vo
 
     seo()
         ->title('Foo')
-        ->jsonLdFirst()
+        ->jsonLdSchema()
             ->name('Bar');
 
     expect(trim((string) seo()->generate('json-ld')))->toBe(
@@ -1631,7 +1631,7 @@ test('configured values can be modified after accessing schema-org', function ()
 
     seo()
         ->title('Foo')
-        ->jsonLdFirst()
+        ->jsonLdSchema()
             ->name('Bar');
 
     seo()->jsonLdName('Baz');
@@ -1662,7 +1662,7 @@ it('does not require schema-org to function', function (): void {
         ->title('Foo')
         ->description('Bar');
 
-    expect(seo()->jsonLdFirst())->toBeNull()
+    expect(seo()->jsonLdSchema())->toBeNull()
         ->and(trim((string) seo()->generate('json-ld')))->toBe(
             <<<END
 <!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
