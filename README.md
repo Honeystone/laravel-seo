@@ -501,9 +501,8 @@ class PageController
 
 ### Custom generators
 
-To create a custom generator, simply implement the `Honeystone\Seo\Contracts\MetadataGenerator` contract and the
-add it to your config file in the generators section. You can also specify any configuration for your generator here
-too.
+To create a custom generator, simply implement the `Honeystone\Seo\Contracts\MetadataGenerator` contract and add it to
+your config file in the generators section. You can specify any configuration for your generator here too.
 
 ### Configuration
 
