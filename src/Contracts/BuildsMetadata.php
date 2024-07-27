@@ -58,6 +58,7 @@ use Spatie\SchemaOrg\MultiTypedEntity;
  * @method self jsonLdEnabled(bool $value)
  * @method self jsonLdType(string|null $value)
  * @method self jsonLdName(string|null $value)
+ * @method self jsonLdId(string|null $value = null, string $append = '', bool|null $useUrl = null)
  * @method self jsonLdTitle(string|null $value)
  * @method self jsonLdDescription(string|null $value)
  * @method self jsonLdImage(string|null $value)
