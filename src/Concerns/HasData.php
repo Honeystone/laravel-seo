@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use function array_filter;
 use function array_key_exists;
 use function array_keys;
-use function array_values;
 use function is_array;
 use function method_exists;
 use function property_exists;
@@ -28,7 +27,7 @@ trait HasData
     {
         if (is_array($value)) {
 
-            $value = array_values(array_filter($value));
+            $value = array_filter($value);
 
             if (count($value) === 0) {
                 $value = null;
