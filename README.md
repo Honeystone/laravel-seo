@@ -538,7 +538,7 @@ return [
         ],
         Generators\TwitterGenerator::class => [
             'enabled' => true,
-            'site' => env('APP_NAME'),
+            'site' => '', //@twitterUsername
             'creator' => '',
             'title' => '',
             'description' => '',
@@ -546,7 +546,7 @@ return [
         ],
         Generators\OpenGraphGenerator::class => [
             'enabled' => true,
-            'site' => '@'.env('APP_NAME'),
+            'site' => env('APP_NAME'),
             'type' => 'website',
             'title' => '',
             'description' => '',
