@@ -61,6 +61,70 @@ return [
             //determines if the configured json-ld is automatically placed on the graph
             'place-on-graph' => true,
         ],
+        Generators\RealFaviconGenerator::class => [
+            'enabled' => true,
+            'apiKey' => env('REAL_FAVICON_KEY'),
+            'image' => '', //the source image path, relative to /resources
+
+            //see https://realfavicongenerator.net/api/non_interactive_api#favicon_design
+            'design' => [
+                'ios' => [
+                    'picture_aspect' => 'no_change',
+                    'app_name' => env('APP_NAME'),
+                    'assets' => [
+                        'ios6_and_prior_icons' => false,
+                        'ios7_and_prior_icons' => false,
+                        'precomposed_icons' => false,
+                        'declare_only_default_icon' => true,
+                    ],
+                ],
+                'windows' => [
+                    'picture_aspect' => 'no_change',
+                    'background_color' => '#222',
+                    'app_name' => env('APP_NAME'),
+                    'assets' => [
+                        'windows_80_ie_10_tile' => false,
+                        'windows_10_ie_11_edge_tiles' => [
+                            'small' => false,
+                            'medium' => true,
+                            'big' => false,
+                            'rectangle' => false,
+                        ],
+                    ],
+                ],
+                'firefox_app' => [
+                    'picture_aspect' => 'no_change',
+                    'manifest' => [
+                        'app_name' => env('APP_NAME'),
+                        'app_description' => '',
+                        'developer_name' => '',
+                        'developer_url' => '',
+                    ],
+                ],
+                'android_chrome' => [
+                    'picture_aspect' => 'no_change',
+                    'manifest' => [
+                        'name' => env('APP_NAME'),
+                        'display' => 'browser',
+                        'theme_color' => '#222',
+                    ],
+                    'assets' => [
+                        'legacy_icon' => false,
+                        'low_resolution_icons' => false,
+                    ],
+                ],
+                'safari_pinned_tab' => [
+                    'picture_aspect' => 'silhouette',
+                    'theme_color' => '#222',
+                ],
+            ],
+
+            //see https://realfavicongenerator.net/api/non_interactive_api#settings
+            'settings' => [
+                'compression' => 3,
+                'scaling_algorithm' => 'Mitchell',
+            ],
+        ],
     ],
 
     'sync' => [

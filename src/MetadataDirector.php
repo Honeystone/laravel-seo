@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use RuntimeException;
 
+use function array_filter;
 use function array_map;
 use function compact;
 use function lcfirst;
@@ -161,7 +162,7 @@ final class MetadataDirector implements BuildsMetadata
     {
         $generated = implode(
             "\n    ",
-            array_map(
+            array_filter(array_map(
                 fn (GeneratesMetadata $generator): string => trim(
                     /** @phpstan-ignore-next-line */
                     (string) $generator->generate(),
@@ -169,7 +170,7 @@ final class MetadataDirector implements BuildsMetadata
                 count($only) > 0 ?
                     $this->register->only($only) :
                     $this->register->all(),
-            ),
+            )),
         );
 
         return view('honeystone-seo::layout', compact('generated'));

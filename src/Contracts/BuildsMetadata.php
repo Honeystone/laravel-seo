@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Honeystone\Seo\Contracts;
 
+use Honeystone\Seo\Generators\RealFaviconGenerator;
 use Honeystone\Seo\OpenGraph\AudioProperties;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
 use Honeystone\Seo\OpenGraph\ImageProperties;
@@ -74,6 +75,11 @@ use Spatie\SchemaOrg\MultiTypedEntity;
  * @method self jsonLdCheckIn(string ...$components)
  * @method self jsonLdConfig(mixed[] $data)
  * @method self jsonLdDefaults(mixed[] $data)
+ *
+ * @see RealFaviconGenerator
+ * @method self faviconFetch(string|null $apiKey = null, string|null $image = null)
+ * @method self faviconConfig(mixed[] $data)
+ * @method self faviconDefaults(mixed[] $data)
  */
 interface BuildsMetadata extends GeneratesMetadata
 {

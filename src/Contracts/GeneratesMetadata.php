@@ -24,5 +24,5 @@ interface GeneratesMetadata
      */
     public function defaults(array $data): self;
 
-    public function generate(): View;
+    public function generate(): View|string|null;
 }
