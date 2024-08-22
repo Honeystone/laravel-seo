@@ -9,6 +9,7 @@
         "twitter",
         "opengraph",
         "json-ld",
+        "favicons",
         "laravel"
     ],
     "authors": [
@@ -21,9 +22,10 @@
     "homepage": "https://honeystone.com",
     "require": {
         "php": "^8.2",
-        "ext-zip" : "*",
-        "spatie/laravel-package-tools": "^1.16.4",
-        "illuminate/contracts": "^10.0|^11.0"
+        "ext-zip": "*",
+        "illuminate/contracts": "^10.0|^11.0",
+        "laravel/prompts": "^0.1.25",
+        "spatie/laravel-package-tools": "^1.16.4"
     },
     "require-dev": {
         "nunomaduro/collision": "^8.0",
