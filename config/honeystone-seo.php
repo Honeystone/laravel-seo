@@ -28,10 +28,13 @@ return [
         Generators\TwitterGenerator::class => [
             'enabled' => true,
             'site' => '', //@twitterUsername
+            'card' => 'summary_large_image',
             'creator' => '',
+            'creatorId' => '',
             'title' => '',
             'description' => '',
             'image' => '',
+            'imageAlt' => '',
         ],
         Generators\OpenGraphGenerator::class => [
             'enabled' => true,

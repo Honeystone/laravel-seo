@@ -12,6 +12,8 @@ use Honeystone\Seo\OpenGraph\BookProperties;
 use Honeystone\Seo\OpenGraph\ImageProperties;
 use Honeystone\Seo\OpenGraph\ProfileProperties;
 use Honeystone\Seo\OpenGraph\VideoProperties;
+use Honeystone\Seo\Twitter\AppProperties;
+use Honeystone\Seo\Twitter\PlayerProperties;
 use Spatie\SchemaOrg\Graph;
 use Spatie\SchemaOrg\MultiTypedEntity;
 use Spatie\SchemaOrg\Person;
@@ -607,7 +609,80 @@ END
     );
 });
 
-it('set the twitter creator', function (): void {
+it('sets the twitter card using a string', function (): void {
+
+    seo()
+        ->twitterCard('summary');
+
+    expect(trim((string) seo()->generate('twitter')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the twitter card to app', function (): void {
+
+    seo()
+        ->twitterCard(new AppProperties(
+            iphoneId: '888888888',
+            iphoneName: 'Foo',
+            iphoneUrl: 'foo://',
+            ipadId: '888888888',
+            ipadName: 'Foo',
+            ipadUrl: 'foo://',
+            googlePlayId: 'com.foo.bar.foobar',
+            googlePlayName: 'Foo',
+            googlePlayUrl: 'https://foo.bar.com/888888888',
+        ));
+
+    expect(trim((string) seo()->generate('twitter')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="app">
+    <meta name="twitter:app:id:iphone" content="888888888">
+    <meta name="twitter:app:name:iphone" content="Foo">
+    <meta name="twitter:app:url:iphone" content="foo://">
+    <meta name="twitter:app:id:ipad" content="888888888">
+    <meta name="twitter:app:name:ipad" content="Foo">
+    <meta name="twitter:app:url:ipad" content="foo://">
+    <meta name="twitter:app:id:googleplay" content="com.foo.bar.foobar">
+    <meta name="twitter:app:name:googleplay" content="Foo">
+    <meta name="twitter:app:url:googleplay" content="https://foo.bar.com/888888888">
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the twitter card to player', function (): void {
+
+    seo()
+        ->twitterCard(new PlayerProperties(
+            player: 'https://foo.bar/video',
+            width: '800',
+            height: '450',
+            stream: 'https://foo.bar/raw-video',
+        ));
+
+    expect(trim((string) seo()->generate('twitter')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:player" content="https://foo.bar/video">
+    <meta name="twitter:player:width" content="800">
+    <meta name="twitter:player:height" content="450">
+    <meta name="twitter:player:stream" content="https://foo.bar/raw-video">
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the twitter creator', function (): void {
 
     seo()
         ->config([
@@ -625,6 +700,46 @@ it('set the twitter creator', function (): void {
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="Foo">
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the twitter creator id', function (): void {
+
+    seo()
+        ->config([
+            'generators' => [
+                TwitterGenerator::class => [
+                    'creatorId' => '',
+                ],
+            ],
+        ])
+        ->twitterCreatorId('123');
+
+    expect(trim((string) seo()->generate('twitter')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator:id" content="123">
+<!-- End Honeystone SEO -->
+END
+    );
+});
+
+it('sets the twitter image and alt', function (): void {
+
+    seo()
+        ->twitterImage('https://mywebsite/image-2.png', 'Foo');
+
+    expect(trim((string) seo()->generate('twitter')))->toBe(
+        <<<END
+<!-- Metadata generated using Honeystone SEO: https://github.com/honeystone/laravel-seo -->
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://mywebsite/image-2.png">
+    <meta name="twitter:image:alt" content="Foo">
 <!-- End Honeystone SEO -->
 END
     );

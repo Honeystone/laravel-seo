@@ -8,6 +8,7 @@ use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
+use Honeystone\Seo\Twitter\Contracts\Card;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 
@@ -41,7 +42,23 @@ final class TwitterGenerator implements GeneratesMetadata
     /**
      * @return $this
      */
+    public function card(string|Card $value): self
+    {
+        return $this->data(__FUNCTION__, $value);
+    }
+
+    /**
+     * @return $this
+     */
     public function creator(?string $value): self
+    {
+        return $this->data(__FUNCTION__, $value);
+    }
+
+    /**
+     * @return $this
+     */
+    public function creatorId(?string $value): self
     {
         return $this->data(__FUNCTION__, $value);
     }
@@ -65,8 +82,10 @@ final class TwitterGenerator implements GeneratesMetadata
     /**
      * @return $this
      */
-    public function image(?string $value): self
+    public function image(?string $value, ?string $alt = null): self
     {
+        $this->data('imageAlt', $alt);
+
         return $this->data(__FUNCTION__, $value);
     }
 

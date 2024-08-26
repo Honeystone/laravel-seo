@@ -9,6 +9,7 @@ use Honeystone\Seo\OpenGraph\AudioProperties;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
 use Honeystone\Seo\OpenGraph\ImageProperties;
 use Honeystone\Seo\OpenGraph\VideoProperties;
+use Honeystone\Seo\Twitter\Contracts\Card;
 use Spatie\SchemaOrg\Graph;
 use Spatie\SchemaOrg\MultiTypedEntity;
 
@@ -28,10 +29,12 @@ use Spatie\SchemaOrg\MultiTypedEntity;
  * @see TwitterGenerator
  * @method self twitterEnabled(bool $value)
  * @method self twitterSite(string|null $value)
+ * @method self twitterCard(string|Card $value)
  * @method self twitterCreator(string|null $value)
+ * @method self twitterCreatorId(string|null $value)
  * @method self twitterTitle(string|null $value)
  * @method self twitterDescription(string|null $value)
- * @method self twitterImage(string|null $value)
+ * @method self twitterImage(string|null $value, string|null $alt = null)
  * @method self twitterConfig(mixed[] $data)
  * @method self twitterDefaults(mixed[] $data)
  *
