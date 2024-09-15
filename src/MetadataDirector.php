@@ -13,6 +13,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use RuntimeException;
 
 use function array_filter;
@@ -25,6 +26,7 @@ use function view;
 
 final class MetadataDirector implements BuildsMetadata
 {
+    use Conditionable;
     use HasDefaults;
 
     use HasConfig {
