@@ -7,6 +7,7 @@ namespace Honeystone\Seo\Generators;
 use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
+use Honeystone\Seo\Contracts\ExportsArrayMetadata;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Honeystone\Seo\Twitter\Contracts\Card;
 use Illuminate\Contracts\View\View;
@@ -14,7 +15,7 @@ use Illuminate\Support\Arr;
 
 use function view;
 
-final class TwitterGenerator implements GeneratesMetadata
+final class TwitterGenerator implements GeneratesMetadata, ExportsArrayMetadata
 {
     use HasConfig, HasData, HasDefaults;
 
@@ -87,6 +88,11 @@ final class TwitterGenerator implements GeneratesMetadata
         $this->data('imageAlt', $alt);
 
         return $this->data(__FUNCTION__, $value);
+    }
+
+    public function toArray(): array
+    {
+        return $this->getData();
     }
 
     public function generate(): View

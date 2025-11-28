@@ -20,6 +20,7 @@ final class GenerateInertiaMetadata
     {
         // @phpstan-ignore-next-line
         Inertia::share('seo', static fn (): string => (string) seo()->generate());
+        Inertia::share('seoPayload', static fn (): array => seo()->toArray());
 
         return $next($request);
     }

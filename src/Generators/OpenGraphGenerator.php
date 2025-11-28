@@ -7,6 +7,7 @@ namespace Honeystone\Seo\Generators;
 use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
+use Honeystone\Seo\Contracts\ExportsArrayMetadata;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Honeystone\Seo\OpenGraph\AudioProperties;
 use Honeystone\Seo\OpenGraph\Contracts\Taggable;
@@ -22,7 +23,7 @@ use function in_array;
 use function seo;
 use function view;
 
-final class OpenGraphGenerator implements GeneratesMetadata
+final class OpenGraphGenerator implements GeneratesMetadata, ExportsArrayMetadata
 {
     use HasConfig, HasData, HasDefaults;
 
@@ -209,13 +210,18 @@ final class OpenGraphGenerator implements GeneratesMetadata
         return $this;
     }
 
-    public function generate(): View
+    public function toArray(): array
     {
         $this->syncTags();
 
-        return view('honeystone-seo::open-graph', [
+        return [
             'custom' => array_merge($this->config['custom'] ?? [], $this->custom),
-        ] + $this->getData());
+        ] + $this->getData();
+    }
+
+    public function generate(): View
+    {
+        return view('honeystone-seo::open-graph', $this->toArray());
     }
 
     private function syncTags(): void

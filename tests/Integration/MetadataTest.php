@@ -25,6 +25,35 @@ beforeEach(function (): void {
         ->url('https://mywebsite.com');
 });
 
+it('exports generator payloads as arrays', function (): void {
+
+    seo()
+        ->title('Foo', template: false)
+        ->description('Bar')
+        ->images('https://mywebsite.com/pic.png')
+        ->twitterEnabled(true);
+
+    $payload = seo()->toArray();
+
+    expect($payload)
+        ->toHaveKeys(['meta', 'twitter', 'open-graph', 'json-ld'])
+        ->and($payload['meta']['title'])->toBe('Foo')
+        ->and($payload['twitter']['enabled'])->toBeTrue()
+        ->and($payload['open-graph']['images'])->toEqual(['https://mywebsite.com/pic.png'])
+        ->and($payload['json-ld']['generated'])->not->toBe('');
+});
+
+it('filters generator payloads when exporting a specific generator', function (): void {
+
+    seo()->title('Foo', template: false);
+
+    $payload = seo()->toArray('meta');
+
+    expect($payload)
+        ->toHaveKey('meta')
+        ->and($payload)->not->toHaveKey('twitter');
+});
+
 it('propagates the default locale', function (): void {
 
     seo()->locale('Foo');

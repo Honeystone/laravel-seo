@@ -97,6 +97,32 @@ The rendered result will look something like this:
 </script>
 ```
 
+### Exporting metadata as arrays
+
+Every generator now implements the `Honeystone\Seo\Contracts\ExportsArrayMetadata` contract, which means the director
+can provide a structured payload for each generator:
+
+```php
+$seo = seo()->toArray();            // ['meta' => [...], 'twitter' => [...], ...]
+$metaOnly = seo()->toArray('meta'); // limit to a specific generator
+```
+
+This is particularly useful when sharing SEO data with Inertia.js:
+
+```php
+return Inertia::render('Pages/Show', [
+    'page' => $page,
+    'seo' => seo()->toArray(),
+]);
+```
+
+On the client you can decide whether to render the tags yourself, hydrate a preview component, or simply inspect the
+payload for analytics/debugging purposes.
+
+If you are using the bundled `GenerateInertiaMetadata` middleware, the structured payload is automatically shared as
+`$page.props.seoPayload` (alongside the rendered HTML string that remains available under `$page.props.seo` for legacy
+integrations).
+
 ### Default methods
 
 Values provided to default methods will automatically propagate to all configured metadata generators.
