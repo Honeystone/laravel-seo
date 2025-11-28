@@ -211,4 +211,46 @@ final class MetadataDirector implements BuildsMetadata
             $generator->defaults($this->defaults);
         }
     }
+
+    public function toArray(): array
+    {
+        $output = [];
+
+        // Title
+        if ($this->title) {
+            $output['title'] = $this->title;
+        }
+
+        // Description
+        if ($this->description) {
+            $output['description'] = $this->description;
+        }
+
+        // Canonical
+        if ($this->canonical) {
+            $output['canonical'] = $this->canonical;
+        }
+
+        // Meta tags (meta[name=*] and meta[property=*])
+        if (!empty($this->metaTags)) {
+            $output['meta'] = $this->metaTags;
+        }
+
+        // Open Graph (og:* tags)
+        if (!empty($this->openGraph)) {
+            $output['open_graph'] = $this->openGraph;
+        }
+
+        // Twitter tags (twitter:* tags)
+        if (!empty($this->twitterCards)) {
+            $output['twitter'] = $this->twitterCards;
+        }
+
+        // JSON-LD (structured data)
+        if (!empty($this->jsonLd)) {
+            $output['json_ld'] = $this->jsonLd;
+        }
+
+        return $output;
+    }
 }
