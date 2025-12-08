@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Honeystone\Seo\Http\Middleware;
 
 use Closure;
@@ -11,17 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function seo;
 
-final class GenerateInertiaMetadata
+final class GenerateInertiaMetadataReact
 {
     /**
      * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // @phpstan-ignore-next-line
-        Inertia::share('seo', static fn (): string => (string) seo()->generate());
         Inertia::share('seoPayload', static fn (): array => seo()->toArray());
 
         return $next($request);
     }
 }
+

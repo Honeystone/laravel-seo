@@ -97,6 +97,65 @@ The rendered result will look something like this:
 </script>
 ```
 
+### Exporting metadata as arrays
+
+Every generator now implements the `Honeystone\Seo\Contracts\ExportsArrayMetadata` contract, which means the director
+can provide a structured payload for each generator:
+
+```php
+$seo = seo()->toArray();            // ['meta' => [...], 'twitter' => [...], ...]
+$metaOnly = seo()->toArray('meta'); // limit to a specific generator
+```
+
+This is particularly useful when sharing SEO data with Inertia.js:
+
+```php
+return Inertia::render('Pages/Show', [
+    'page' => $page,
+    'seo' => seo()->toArray(),
+]);
+```
+
+On the client you can decide whether to render the tags yourself, hydrate a preview component, or simply inspect the
+payload for analytics/debugging purposes.
+
+If you are using the bundled `GenerateInertiaMetadata` middleware, the structured payload is automatically shared as
+`$page.props.seoPayload` (alongside the rendered HTML string that remains available under `$page.props.seo` for legacy
+integrations).
+
+### Inertia React
+
+When using Inertia with React, you can render the structured SEO payload directly in the head using the bundled React
+component at `resources/js/inertia/react/SeoHead.tsx`.
+
+1. Register the React-specific middleware `\Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class` in your
+   Inertia middleware stack so `$page.props.seoPayload` is shared:
+   ```php
+   // app/Http/Middleware/HandleInertiaRequests.php
+   protected $middleware = [
+       // ...
+       \Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class,
+   ];
+   ```
+2. Render the component in your React layout so every page gets the tags:
+   ```tsx
+   // resources/js/Layouts/AppLayout.tsx
+   import SeoHead from '@/inertia/react/SeoHead';
+
+   export default function AppLayout({ children }) {
+       return (
+           <>
+               <SeoHead defaultTitleSuffix="My App" />
+               {children}
+           </>
+       );
+   }
+   ```
+   The component reads `seoPayload` from `usePage()` and outputs meta, Open Graph, Twitter and JSON-LD tags. Pass
+   `forceNoIndex` if you need to override robots for specific responses.
+
+When using this method, Inertia itself will attempt to replace the meta tags for you so you will need to remove the @metadata blade directive from your layouts. 
+
 ### Default methods
 
 Values provided to default methods will automatically propagate to all configured metadata generators.

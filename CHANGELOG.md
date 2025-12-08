@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 - 2025-11-28
+
+- Added the `ExportsArrayMetadata` contract and implemented it across all built-in generators.
+- Exposed `MetadataDirector::toArray()` for exporting structured metadata (useful for Inertia controllers).
+
 ## 2.0.0 - 2025-03-01
 
 - Added support for Laravel 12.
