@@ -123,6 +123,39 @@ If you are using the bundled `GenerateInertiaMetadata` middleware, the structure
 `$page.props.seoPayload` (alongside the rendered HTML string that remains available under `$page.props.seo` for legacy
 integrations).
 
+### Inertia React
+
+When using Inertia with React, you can render the structured SEO payload directly in the head using the bundled React
+component at `resources/js/inertia/react/SeoHead.tsx`.
+
+1. Register the React-specific middleware `\Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class` in your
+   Inertia middleware stack so `$page.props.seoPayload` is shared:
+   ```php
+   // app/Http/Middleware/HandleInertiaRequests.php
+   protected $middleware = [
+       // ...
+       \Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class,
+   ];
+   ```
+2. Render the component in your React layout so every page gets the tags:
+   ```tsx
+   // resources/js/Layouts/AppLayout.tsx
+   import SeoHead from '@/inertia/react/SeoHead';
+
+   export default function AppLayout({ children }) {
+       return (
+           <>
+               <SeoHead defaultTitleSuffix="My App" />
+               {children}
+           </>
+       );
+   }
+   ```
+   The component reads `seoPayload` from `usePage()` and outputs meta, Open Graph, Twitter and JSON-LD tags. Pass
+   `forceNoIndex` if you need to override robots for specific responses.
+
+When using this method, Inertia itself will attempt to replace the meta tags for you so you will need to remove the @metadata blade directive from your layouts. 
+
 ### Default methods
 
 Values provided to default methods will automatically propagate to all configured metadata generators.
