@@ -9,6 +9,7 @@ use Honeystone\Seo\Contracts\RegistersGenerators;
 use Honeystone\Seo\MetadataDirector;
 use Honeystone\Seo\Registry;
 use Illuminate\Support\Facades\Blade;
+use Spatie\Csp\Nonce\NonceGenerator;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -37,6 +38,10 @@ final class SeoServiceProvider extends PackageServiceProvider
         Blade::directive('metadata', static function (string ...$only): string {
             if (function_exists('csp_nonce')) {
                 return '<?php echo seo()->jsonLdNonce(csp_nonce())->generate(...($only ?? [])); ?>';
+            }
+
+            if (class_exists(NonceGenerator::class)) {
+                return '<?php echo seo()->jsonLdNonce(app(NonceGenerator::class)->generate())->generate(...($only ?? [])); ?>';
             }
 
             return '<?php echo seo()->generate(...($only ?? [])); ?>';
