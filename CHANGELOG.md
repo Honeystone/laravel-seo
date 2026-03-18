@@ -1,7 +1,10 @@
 # Changelog
 
-## 2.1.0 - 2025-11-28
+## 2.1.0 - 2026-03-18
 
+- Added support for Spatie CSP v3.
+- Bumped deps to remove deprecation warnings on PHP 8.5.
+- Added support for Laravel 13.
 - Added the `ExportsArrayMetadata` contract and implemented it across all built-in generators.
 - Exposed `MetadataDirector::toArray()` for exporting structured metadata (useful for Inertia controllers).
 
