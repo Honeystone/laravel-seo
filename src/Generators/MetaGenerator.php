@@ -7,6 +7,7 @@ namespace Honeystone\Seo\Generators;
 use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
+use Honeystone\Seo\Contracts\ExportsArrayMetadata;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 use function array_merge;
 use function view;
 
-final class MetaGenerator implements GeneratesMetadata
+final class MetaGenerator implements GeneratesMetadata, ExportsArrayMetadata
 {
     use HasConfig, HasData, HasDefaults;
 
@@ -110,6 +111,13 @@ final class MetaGenerator implements GeneratesMetadata
         $this->custom[] = [$property => $content];
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'custom' => array_merge($this->config['custom'] ?? [], $this->custom),
+        ] + $this->getData();
     }
 
     public function generate(): View

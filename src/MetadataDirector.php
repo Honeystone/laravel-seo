@@ -7,6 +7,7 @@ namespace Honeystone\Seo;
 use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasDefaults;
 use Honeystone\Seo\Contracts\BuildsMetadata;
+use Honeystone\Seo\Contracts\ExportsArrayMetadata;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Honeystone\Seo\Contracts\RegistersGenerators;
 use Illuminate\Contracts\Config\Repository;
@@ -24,13 +25,18 @@ use function str_replace;
 use function trim;
 use function view;
 
-final class MetadataDirector implements BuildsMetadata
+final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
 {
     use Conditionable;
     use HasConfig {
         config as private setConfig;
     }
     use HasDefaults;
+
+    /**
+     * @var array<string, GeneratesMetadata>
+     */
+    protected array $generators = [];
 
     public function __construct(
         private readonly RegistersGenerators $register,
@@ -39,6 +45,8 @@ final class MetadataDirector implements BuildsMetadata
         $this->config = $config !== null ?
             $config->get('honeystone-seo') :
             [];
+
+        $this->syncGenerators();
     }
 
     /**
@@ -156,11 +164,21 @@ final class MetadataDirector implements BuildsMetadata
 
     public function generator(string $name): GeneratesMetadata
     {
-        return $this->register->get($name);
+        $generator = $this->register->get($name);
+
+        $this->generators[$name] = $generator;
+
+        return $generator;
     }
 
     public function generate(string ...$only): View
     {
+        $this->syncGenerators();
+
+        $generators = count($only) > 0 ?
+            $this->register->only($only) :
+            $this->generators;
+
         $generated = implode(
             "\n    ",
             array_filter(array_map(
@@ -168,9 +186,7 @@ final class MetadataDirector implements BuildsMetadata
                     /** @phpstan-ignore-next-line */
                     (string) $generator->generate(),
                 ),
-                count($only) > 0 ?
-                    $this->register->only($only) :
-                    $this->register->all(),
+                $generators,
             )),
         );
 
@@ -200,15 +216,43 @@ final class MetadataDirector implements BuildsMetadata
 
     private function propagateConfig(): void
     {
-        foreach ($this->register->all() as $generator) {
+        $this->syncGenerators();
+
+        foreach ($this->generators as $generator) {
             $generator->config($this->getConfig('generators.'.$generator::class, []));
         }
     }
 
     private function propagateDefaults(): void
     {
-        foreach ($this->register->all() as $generator) {
+        $this->syncGenerators();
+
+        foreach ($this->generators as $generator) {
             $generator->defaults($this->defaults);
         }
+    }
+
+    public function toArray(?string $only = null): array
+    {
+        $this->syncGenerators();
+
+        $result = [];
+
+        foreach ($this->generators as $name => $generator) {
+            if ($only !== null && $name !== $only) {
+                continue;
+            }
+
+            if ($generator instanceof ExportsArrayMetadata) {
+                $result[$name] = $generator->toArray();
+            }
+        }
+
+        return $result;
+    }
+
+    private function syncGenerators(): void
+    {
+        $this->generators = $this->register->all();
     }
 }

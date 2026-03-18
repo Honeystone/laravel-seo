@@ -7,6 +7,7 @@ namespace Honeystone\Seo\Generators;
 use Honeystone\Seo\Concerns\HasConfig;
 use Honeystone\Seo\Concerns\HasData;
 use Honeystone\Seo\Concerns\HasDefaults;
+use Honeystone\Seo\Contracts\ExportsArrayMetadata;
 use Honeystone\Seo\Contracts\GeneratesMetadata;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ use function sprintf;
 use function url;
 use function view;
 
-final class JsonLdGenerator implements GeneratesMetadata
+final class JsonLdGenerator implements GeneratesMetadata, ExportsArrayMetadata
 {
     use HasConfig, HasData, HasDefaults;
 
@@ -242,7 +243,7 @@ final class JsonLdGenerator implements GeneratesMetadata
         return $this;
     }
 
-    public function generate(): View
+    public function toArray(): array
     {
         $this->checkExpectations();
 
@@ -252,7 +253,12 @@ final class JsonLdGenerator implements GeneratesMetadata
             $this->generateJsonLd($data) :
             '';
 
-        return view('honeystone-seo::json-ld', compact('generated') + $data);
+        return compact('generated') + $data;
+    }
+
+    public function generate(): View
+    {
+        return view('honeystone-seo::json-ld', $this->toArray());
     }
 
     /**
