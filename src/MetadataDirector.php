@@ -33,11 +33,6 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
     }
     use HasDefaults;
 
-    /**
-     * @var array<string, GeneratesMetadata>
-     */
-    protected array $generators = [];
-
     public function __construct(
         private readonly RegistersGenerators $register,
         ?Repository $config = null,
@@ -45,8 +40,6 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
         $this->config = $config !== null ?
             $config->get('honeystone-seo') :
             [];
-
-        $this->syncGenerators();
     }
 
     /**
@@ -164,21 +157,11 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
 
     public function generator(string $name): GeneratesMetadata
     {
-        $generator = $this->register->get($name);
-
-        $this->generators[$name] = $generator;
-
-        return $generator;
+        return $this->register->get($name);
     }
 
     public function generate(string ...$only): View
     {
-        $this->syncGenerators();
-
-        $generators = count($only) > 0 ?
-            $this->register->only($only) :
-            $this->generators;
-
         $generated = implode(
             "\n    ",
             array_filter(array_map(
@@ -186,7 +169,9 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
                     /** @phpstan-ignore-next-line */
                     (string) $generator->generate(),
                 ),
-                $generators,
+                count($only) > 0 ?
+                    $this->register->only($only) :
+                    $this->register->all(),
             )),
         );
 
@@ -216,43 +201,28 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
 
     private function propagateConfig(): void
     {
-        $this->syncGenerators();
-
-        foreach ($this->generators as $generator) {
+        foreach ($this->register->all() as $generator) {
             $generator->config($this->getConfig('generators.'.$generator::class, []));
         }
     }
 
     private function propagateDefaults(): void
     {
-        $this->syncGenerators();
-
-        foreach ($this->generators as $generator) {
+        foreach ($this->register->all() as $generator) {
             $generator->defaults($this->defaults);
         }
     }
 
-    public function toArray(?string $only = null): array
+    public function toArray(string ...$only): array
     {
-        $this->syncGenerators();
-
-        $result = [];
-
-        foreach ($this->generators as $name => $generator) {
-            if ($only !== null && $name !== $only) {
-                continue;
-            }
-
-            if ($generator instanceof ExportsArrayMetadata) {
-                $result[$name] = $generator->toArray();
-            }
-        }
-
-        return $result;
-    }
-
-    private function syncGenerators(): void
-    {
-        $this->generators = $this->register->all();
+        return array_map(
+            static fn (GeneratesMetadata $generator) => $generator->toArray(),
+            array_filter(
+                count($only) > 0 ?
+                    $this->register->only($only) :
+                    $this->register->all(),
+                static fn (GeneratesMetadata $generator) => $generator instanceof ExportsArrayMetadata,
+            ),
+        );
     }
 }

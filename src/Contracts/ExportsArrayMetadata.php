@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honeystone\Seo\Contracts;
 
-/**
- * Implemented by metadata generators that can expose their payload as an array.
- */
 interface ExportsArrayMetadata
 {
     /**
@@ -12,4 +11,3 @@ interface ExportsArrayMetadata
      */
     public function toArray(): array;
 }
-

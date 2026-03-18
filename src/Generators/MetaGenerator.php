@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use function array_merge;
 use function view;
 
-final class MetaGenerator implements GeneratesMetadata, ExportsArrayMetadata
+final class MetaGenerator implements ExportsArrayMetadata, GeneratesMetadata
 {
     use HasConfig, HasData, HasDefaults;
 
@@ -122,8 +122,6 @@ final class MetaGenerator implements GeneratesMetadata, ExportsArrayMetadata
 
     public function generate(): View
     {
-        return view('honeystone-seo::meta', [
-            'custom' => array_merge($this->config['custom'] ?? [], $this->custom),
-        ] + $this->getData());
+        return view('honeystone-seo::meta', $this->toArray());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Honeystone\Seo\Http\Middleware;
 
 use Closure;
@@ -16,9 +18,9 @@ final class GenerateInertiaMetadataReact
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // @phpstan-ignore-next-line
         Inertia::share('seoPayload', static fn (): array => seo()->toArray());
 
         return $next($request);
     }
 }
-
