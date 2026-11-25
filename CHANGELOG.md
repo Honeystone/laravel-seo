@@ -2,6 +2,7 @@
 
 ## 2.2.0 - 2026-11-25
 
+- Tested and documented Livewire functionality.
 - Deprecated `GenerateInertiaMetadataReact` in favour of
   `GenerateInertiaMetadata`.
 - Improved Inertial React and Vue 3 integration.

@@ -6,6 +6,9 @@
     colors="true"
 >
     <testsuites>
+        <testsuite name="browser">
+            <directory>./tests/Browser</directory>
+        </testsuite>
         <testsuite name="integration">
             <directory>./tests/Integration</directory>
         </testsuite>

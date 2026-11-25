@@ -4,9 +4,12 @@
 .phpunit.result.cache
 build
 composer.lock
+package-lock.json
 coverage
 vendor
 node_modules
 .php-cs-fixer.cache
 .phpactor.json
 laradumps.yaml
+tests/Browser/Screenshots
+tests/Browser/Traces

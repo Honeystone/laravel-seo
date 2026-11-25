@@ -709,7 +709,7 @@ This copies the component and its shared module to
 
 #### Inertia Vue 3
 
-The Vue 3 component works in exactly the same way and renders the same payload. 
+The Vue 3 component works in exactly the same way and renders the same payload.
 Publish it with:
 
 ```bash
@@ -733,6 +733,32 @@ php artisan vendor:publish --tag=honeystone-seo-inertia-vue
 
 Use `--tag=honeystone-seo-inertia` to publish both components. Published files
 are yours to edit; re-publish with `--force` to update them after an upgrade.
+
+### Livewire
+
+The `@metadata` directive works with Livewire out of the box, including
+full-page components. Call `seo()` in the component's `mount()` or `render()`
+method, and use `seo()->title()` rather than Livewire's `#[Title]` attribute so
+there is a single source for the title.
+
+#### JSON-LD and `wire:navigate`
+
+When navigating with `wire:navigate`, Livewire merges the new page's `<head>`
+into the current one. Unfortunately, this means that JSON-LD scripts are often
+repeated as their contents differs significantly between pages.
+
+To work around this, you can render JSON-LD in the `<body>` instead:
+
+```blade
+<head>
+    @metadata('meta', 'open-graph', 'twitter')
+</head>
+<body>
+    {{ $slot }}
+
+    @metadata('json-ld')
+</body>
+```
 
 ## Changelog
 
