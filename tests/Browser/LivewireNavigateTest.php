@@ -46,7 +46,7 @@ function jsonLdScripts(mixed $page): array
 }
 
 beforeEach(function (): void {
-    View::addNamespace('seo-test', __DIR__ . '/views');
+    View::addNamespace('seo-test', __DIR__.'/views');
 
     Livewire::component('seo-test-page-a', PageA::class);
     Livewire::component('seo-test-page-b', PageB::class);
@@ -96,4 +96,3 @@ it('replaces json-ld when it\'s rendered in the body', function (): void {
 
     expect(jsonLdScripts($page))->toHaveCount(1)->and(jsonLdScripts($page)[0])->toContain('Page A');
 })->group('browser');
-
