@@ -7,7 +7,7 @@
 @endforeach
 @endif
 @if($type->isbn)
-    <meta property="book:isnb" content="{{ $type->isbn }}">
+    <meta property="book:isbn" content="{{ $type->isbn }}">
 @endif
 @if($type->releaseDate)
     <meta property="book:release_date" content="{{ $type->releaseDate->format('c') }}">

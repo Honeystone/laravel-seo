@@ -972,7 +972,7 @@ it('sets the open graph type to book properties', function (): void {
     <meta property="book:author:last_name" content="Johnson">
     <meta property="book:author:first_name" content="John">
     <meta property="book:author:last_name" content="Vlissides">
-    <meta property="book:isnb" content="978-0201633610">
+    <meta property="book:isbn" content="978-0201633610">
     <meta property="book:release_date" content="1995-03-14T00:00:00+00:00">
     <meta property="book:tag" content="1st">
     <meta property="book:tag" content="GoF">
