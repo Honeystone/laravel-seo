@@ -221,7 +221,10 @@ final class OpenGraphGenerator implements ExportsArrayMetadata, GeneratesMetadat
 
     public function generate(): View
     {
-        return view('honeystone-seo::open-graph', $this->toArray());
+        /** @var view-string $view */
+        $view = 'honeystone-seo::open-graph';
+
+        return view($view, $this->toArray());
     }
 
     private function syncTags(): void

@@ -175,7 +175,10 @@ final class MetadataDirector implements BuildsMetadata, ExportsArrayMetadata
             )),
         );
 
-        return view('honeystone-seo::layout', compact('generated'));
+        /** @var view-string $view */
+        $view = 'honeystone-seo::layout';
+
+        return view($view, compact('generated'));
     }
 
     public function config(array $data): self

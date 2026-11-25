@@ -206,6 +206,7 @@ final class JsonLdGenerator implements ExportsArrayMetadata, GeneratesMetadata
         }
 
         return $this->schema
+            // @phpstan-ignore-next-line
             ->identifier($this->getRaw('id'))
             ->name($this->getRaw('name'))
             ->description($this->getRaw('description'))
@@ -258,7 +259,10 @@ final class JsonLdGenerator implements ExportsArrayMetadata, GeneratesMetadata
 
     public function generate(): View
     {
-        return view('honeystone-seo::json-ld', $this->toArray());
+        /** @var view-string $view */
+        $view = 'honeystone-seo::json-ld';
+
+        return view($view, $this->toArray());
     }
 
     /**

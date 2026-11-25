@@ -122,6 +122,9 @@ final class MetaGenerator implements ExportsArrayMetadata, GeneratesMetadata
 
     public function generate(): View
     {
-        return view('honeystone-seo::meta', $this->toArray());
+        /** @var view-string $view */
+        $view = 'honeystone-seo::meta';
+
+        return view($view, $this->toArray());
     }
 }

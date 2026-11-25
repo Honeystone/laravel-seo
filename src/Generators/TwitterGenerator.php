@@ -97,7 +97,10 @@ final class TwitterGenerator implements ExportsArrayMetadata, GeneratesMetadata
 
     public function generate(): View
     {
-        return view('honeystone-seo::twitter', $this->getData());
+        /** @var view-string $view */
+        $view = 'honeystone-seo::twitter';
+
+        return view($view, $this->toArray());
     }
 
     /**
