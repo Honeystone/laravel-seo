@@ -26,6 +26,7 @@
     "spatie/laravel-package-tools": "^1.16.4"
   },
   "require-dev": {
+    "inertiajs/inertia-laravel": "^3.8",
     "laradumps/laradumps-core": "^4.0.5",
     "larastan/larastan": "^3.9.3",
     "laravel/pint": "^1.21",

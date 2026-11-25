@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Honeystone\Seo\OpenGraph;
 
 use Honeystone\Seo\OpenGraph\Contracts\Type;
+use JsonSerializable;
 
-class ProfileProperties implements Type
+use function array_filter;
+
+class ProfileProperties implements JsonSerializable, Type
 {
     public function __construct(
         public readonly ?string $firstName = null,
@@ -23,5 +26,22 @@ class ProfileProperties implements Type
     public function getType(): string
     {
         return 'profile';
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function jsonSerialize(): array
+    {
+        return array_filter(
+            [
+                'type' => $this->getType(),
+                'firstName' => $this->firstName,
+                'lastName' => $this->lastName,
+                'username' => $this->username,
+                'gender' => $this->gender,
+            ],
+            static fn (?string $value): bool => $value !== null,
+        );
     }
 }

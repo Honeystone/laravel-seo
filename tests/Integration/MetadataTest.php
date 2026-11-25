@@ -1910,7 +1910,7 @@ it('throws an exception when given unserialisable data', function (): void {
 
     seo()->config([
         'generators' => [
-            jsonLdGenerator::class => [
+            JsonLdGenerator::class => [
                 'custom' => [
                     'meh' => INF,
                 ],

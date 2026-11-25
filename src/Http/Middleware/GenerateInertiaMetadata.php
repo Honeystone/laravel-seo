@@ -19,6 +19,9 @@ final class GenerateInertiaMetadata
     public function handle(Request $request, Closure $next): Response
     {
         // @phpstan-ignore-next-line
+        Inertia::share('seoPayload', static fn (): array => seo()->toArray());
+
+        // @phpstan-ignore-next-line
         Inertia::share('seo', static fn (): string => (string) seo()->generate());
 
         return $next($request);

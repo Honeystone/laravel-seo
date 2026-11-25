@@ -23,7 +23,7 @@ use function in_array;
 use function seo;
 use function view;
 
-final class OpenGraphGenerator implements GeneratesMetadata, ExportsArrayMetadata
+final class OpenGraphGenerator implements ExportsArrayMetadata, GeneratesMetadata
 {
     use HasConfig, HasData, HasDefaults;
 

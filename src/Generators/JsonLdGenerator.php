@@ -29,7 +29,7 @@ use function sprintf;
 use function url;
 use function view;
 
-final class JsonLdGenerator implements GeneratesMetadata, ExportsArrayMetadata
+final class JsonLdGenerator implements ExportsArrayMetadata, GeneratesMetadata
 {
     use HasConfig, HasData, HasDefaults;
 

@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function seo;
 
+/**
+ * @deprecated use GenerateInertiaMetadata instead
+ */
 final class GenerateInertiaMetadataReact
 {
     /**

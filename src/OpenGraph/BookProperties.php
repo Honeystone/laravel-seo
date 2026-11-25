@@ -7,8 +7,11 @@ namespace Honeystone\Seo\OpenGraph;
 use DateTimeInterface;
 use Honeystone\Seo\OpenGraph\Contracts\Taggable;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
+use JsonSerializable;
 
-class BookProperties implements Taggable, Type
+use function array_filter;
+
+class BookProperties implements JsonSerializable, Taggable, Type
 {
     /**
      * @param ProfileProperties|array<ProfileProperties>|null $author
@@ -36,5 +39,22 @@ class BookProperties implements Taggable, Type
         if ($this->tag === null) {
             $this->tag = $tag;
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return array_filter(
+            [
+                'type' => $this->getType(),
+                'author' => $this->author,
+                'isbn' => $this->isbn,
+                'releaseDate' => $this->releaseDate?->format('c'),
+                'tag' => $this->tag,
+            ],
+            static fn (mixed $value): bool => $value !== null,
+        );
     }
 }

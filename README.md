@@ -7,21 +7,25 @@
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/honeystone/laravel-seo/illuminate%2Fcontracts?label=laravel)
 [![Static Badge](https://img.shields.io/badge/honeystone-fa6900)](https://honeystone.com)
 
-The Honeystone SEO package makes configuring SEO metadata from anywhere within your Laravel application a breeze.
+The Honeystone SEO package makes configuring SEO metadata from anywhere within
+your Laravel application a breeze.
 
-Included are metadata generators for general metadata, X (Formally Twitter) Cards, Open Graph and JSON-LD Schema.
+Included are metadata generators for general metadata, X (Formally Twitter)
+Cards, Open Graph and JSON-LD Schema.
 
-This package was designed with extensibility in mind, so your own custom metadata generators can also be added with
-ease.
+This package was designed with extensibility in mind, so your own custom
+metadata generators can also be added with ease.
 
 ## Support us
 
 [![Support Us](https://honeystone.com/images/github/support-us.webp)](https://honeystone.com)
 
-We are committed to delivering high-quality open source packages maintained by the team at Honeystone. If you would
-like to support our efforts, simply use our packages, recommend them and contribute.
+We are committed to delivering high-quality open source packages maintained by
+the team at Honeystone. If you would like to support our efforts, simply use our
+packages, recommend them and contribute.
 
-If you need any help with your project, or require any custom development, please [get in touch](https://honeystone.com/contact-us).
+If you need any help with your project, or require any custom development,
+please [get in touch](https://honeystone.com/contact-us).
 
 ## Installation
 
@@ -37,8 +41,9 @@ php artisan vendor:publish --tag=honeystone-seo-config
 
 ## Usage
 
-The package provides a helper function, `seo()`, and some Blade directives, `@metadata` and `@openGraphPrefix`. You
-can also typehint the `Honeystone\Seo\MetadataDirector` if you prefer to use dependency injection.
+The package provides a helper function, `seo()`, and some Blade directives,
+`@metadata` and `@openGraphPrefix`. You can also typehint the
+`Honeystone\Seo\MetadataDirector` if you prefer to use dependency injection.
 
 Setting metadata is a simple as chaining methods:
 
@@ -97,68 +102,10 @@ The rendered result will look something like this:
 </script>
 ```
 
-### Exporting metadata as arrays
-
-Every generator now implements the `Honeystone\Seo\Contracts\ExportsArrayMetadata` contract, which means the director
-can provide a structured payload for each generator:
-
-```php
-$seo = seo()->toArray();            // ['meta' => [...], 'twitter' => [...], ...]
-$metaOnly = seo()->toArray('meta'); // limit to a specific generator
-```
-
-This is particularly useful when sharing SEO data with Inertia.js:
-
-```php
-return Inertia::render('Pages/Show', [
-    'page' => $page,
-    'seo' => seo()->toArray(),
-]);
-```
-
-On the client you can decide whether to render the tags yourself, hydrate a preview component, or simply inspect the
-payload for analytics/debugging purposes.
-
-If you are using the bundled `GenerateInertiaMetadata` middleware, the structured payload is automatically shared as
-`$page.props.seoPayload` (alongside the rendered HTML string that remains available under `$page.props.seo` for legacy
-integrations).
-
-### Inertia React
-
-When using Inertia with React, you can render the structured SEO payload directly in the head using the bundled React
-component at `resources/js/inertia/react/SeoHead.tsx`.
-
-1. Register the React-specific middleware `\Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class` in your
-   Inertia middleware stack so `$page.props.seoPayload` is shared:
-   ```php
-   // app/Http/Middleware/HandleInertiaRequests.php
-   protected $middleware = [
-       // ...
-       \Honeystone\Seo\Http\Middleware\GenerateInertiaMetadataReact::class,
-   ];
-   ```
-2. Render the component in your React layout so every page gets the tags:
-   ```tsx
-   // resources/js/Layouts/AppLayout.tsx
-   import SeoHead from '@/inertia/react/SeoHead';
-
-   export default function AppLayout({ children }) {
-       return (
-           <>
-               <SeoHead defaultTitleSuffix="My App" />
-               {children}
-           </>
-       );
-   }
-   ```
-   The component reads `seoPayload` from `usePage()` and outputs meta, Open Graph, Twitter and JSON-LD tags. Pass
-   `forceNoIndex` if you need to override robots for specific responses.
-
-When using this method, Inertia itself will attempt to replace the meta tags for you so you will need to remove the @metadata blade directive from your layouts. 
-
 ### Default methods
 
-Values provided to default methods will automatically propagate to all configured metadata generators.
+Values provided to default methods will automatically propagate to all
+configured metadata generators.
 
 The following default methods are available:
 
@@ -226,7 +173,8 @@ seo()->title('My Awesome Website!', template: false);
 
 ### Meta methods
 
-The meta methods are provided by the `Honeystone\Seo\Generators\MetaGenerator` class.
+The meta methods are provided by the `Honeystone\Seo\Generators\MetaGenerator`
+class.
 
 Here's the full list:
 
@@ -241,13 +189,16 @@ seo()
     ->metaRobots('🤖', '🤖', '🤖');
 ```
 
-All of these are provided by the default methods and propagate through to the meta generator.
+All of these are provided by the default methods and propagate through to the
+meta generator.
 
-If you only want to render the meta generator, use `seo()->generate('meta')` or `@metadata('meta')`
+If you only want to render the meta generator, use `seo()->generate('meta')` or
+`@metadata('meta')`
 
 ### Twitter methods
 
-The meta methods are provided by the `Honeystone\Seo\Generators\TwitterGenerator` class.
+The meta methods are provided by the
+`Honeystone\Seo\Generators\TwitterGenerator` class.
 
 Here's the full list:
 
@@ -263,7 +214,8 @@ seo()
 
 ### Open Graph methods
 
-The meta methods are provided by the `Honeystone\Seo\Generators\TwitterGenerator` class.
+The meta methods are provided by the
+`Honeystone\Seo\Generators\TwitterGenerator` class.
 
 Here's the full list:
 
@@ -351,7 +303,8 @@ seo()
     ));
 ```
 
-You can provide more data for images, audio and videos using their respective properties classes:
+You can provide more data for images, audio and videos using their respective
+properties classes:
 
 ```php
     use Honeystone\Seo\OpenGraph\AudioProperties;
@@ -409,7 +362,8 @@ Here's an example using `ArticleProperties` and `ImageProperties`:
 <meta property="custom:property" content="💀" />
 ```
 
-To set the prefix, you can use the `@openGraphPrefix` Blade directive or `seo()->openGraphPrefix()` like so:
+To set the prefix, you can use the `@openGraphPrefix` Blade directive or
+`seo()->openGraphPrefix()` like so:
 
 ```html
 <head prefix="@openGraphPrefix">
@@ -419,7 +373,8 @@ To set the prefix, you can use the `@openGraphPrefix` Blade directive or `seo()-
 
 ### JSON-LD methods
 
-The meta methods are provided by the `Honeystone\Seo\Generators\JsonLdGenerator` class.
+The meta methods are provided by the `Honeystone\Seo\Generators\JsonLdGenerator`
+class.
 
 Here's the full list:
 
@@ -462,8 +417,9 @@ And the output:
 But Wait, There's More!
 
 Rather than reinventing the wheel, this package has support for the incredible
-[spatie/schema-org](https://github.com/spatie/schema-org) package. You can use the `jsonLdImport()` method to import an
-exising schema, or build your schema using the fluent interface.
+[spatie/schema-org](https://github.com/spatie/schema-org) package. You can use
+the `jsonLdImport()` method to import an exising schema, or build your schema
+using the fluent interface.
 
 ```php
     //graph
@@ -479,15 +435,17 @@ exising schema, or build your schema using the fluent interface.
             ->legalName('Honeystone Consulting Ltd.');
 ```
 
-Just don't forget to install the `spatie/schema-org` package to use this functionality.
+Just don't forget to install the `spatie/schema-org` package to use this
+functionality.
 
 #### Expectations / Check Ins
 
-It's highly likely you'll be building your graph from many locations around your application, e.g. middleware,
-controllers, view composers, view components, etc.
+It's highly likely you'll be building your graph from many locations around your
+application, e.g. middleware, controllers, view composers, view components, etc.
 
-This is where expectations come in. Simply specify your expectations, and then ensure the other parts of your
-application check in. If something failed to check in, an exception will be thrown. Conversely, if something unexpected
+This is where expectations come in. Simply specify your expectations, and then
+ensure the other parts of your application check in. If something failed to
+check in, an exception will be thrown. Conversely, if something unexpected
 checked in, an exception will also be thrown.
 
 ```php
@@ -506,19 +464,23 @@ seo()
             ]);
 ```
 
-You'll be warned immediately if `'featured-tags'` or `'contact'` fail to check in.
+You'll be warned immediately if `'featured-tags'` or `'contact'` fail to check
+in.
 
-This feature is entirely optional. Just don't set any expectations, or check in, and no exceptions will be thrown.
+This feature is entirely optional. Just don't set any expectations, or check in,
+and no exceptions will be thrown.
 
 ### Model integration
 
-This package doesn't include any specific functionality for integrating models. Ultimately, you'll always need to map
-your model attributes to this package. For example, if your model has a `meta_description` attribute, you will need to
-map it to `description`, otherwise this package would not know to consume it.
+This package doesn't include any specific functionality for integrating models.
+Ultimately, you'll always need to map your model attributes to this package. For
+example, if your model has a `meta_description` attribute, you will need to map
+it to `description`, otherwise this package would not know to consume it.
 
 With this in mind, we have a simple pattern that should get you what you need.
 
-Start by adding a new method to your model, and set your metadata using the model's attributes within:
+Start by adding a new method to your model, and set your metadata using the
+model's attributes within:
 
 ```php
 use Honeystone\Seo\MetadataDirector;
@@ -561,8 +523,10 @@ class PageController
 
 ### Custom generators
 
-To create a custom generator, simply implement the `Honeystone\Seo\Contracts\MetadataGenerator` contract and add it to
-your config file in the generators section. You can specify any configuration for your generator here too.
+To create a custom generator, simply implement the
+`Honeystone\Seo\Contracts\MetadataGenerator` contract and add it to your config
+file in the generators section. You can specify any configuration for your
+generator here too.
 
 ### Removing the source comments
 
@@ -576,6 +540,37 @@ php artisan vendor:publish --tag=honeystone-seo-views
 Publishing the package views is generally not recommended as these files will
 not be updated when the package is updated. If it is absolutely necessary to
 publish the views, we recommend only publishing the files you need to modify.
+
+### Exporting metadata as arrays
+
+Every generator now implements the
+`Honeystone\Seo\Contracts\ExportsArrayMetadata` contract, which means the
+director can provide a structured payload for each generator:
+
+```php
+$seo = seo()->toArray();            // ['meta' => [...], 'twitter' => [...], ...]
+$metaOnly = seo()->toArray('meta'); // limit to a specific generator
+```
+
+This is particularly useful when sharing SEO data with Inertia.js:
+
+```php
+return Inertia::render('Pages/Show', [
+    'page' => $page,
+    'seo' => seo()->toArray(),
+]);
+```
+
+On the client you can decide whether to render the tags yourself, hydrate a
+preview component, or simply inspect the payload for analytics/debugging
+purposes.
+
+If you are using the bundled `GenerateInertiaMetadata` middleware, the
+structured payload is automatically shared as `$page.props.seoPayload`
+(alongside the rendered HTML string that remains available under
+`$page.props.seo` for legacy integrations).
+
+See [Frontend Integration](#frontend-integration) for setup.
 
 ### Configuration
 
@@ -654,10 +649,96 @@ return [
 ];
 ```
 
+## Frontend Integration
+
+### Inertia
+
+The bundled middleware must be registered after Inertia's own middleware:
+
+```php
+// bootstrap/app.php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->web(append: [
+        \App\Http\Middleware\HandleInertiaRequests::class,
+        \Honeystone\Seo\Http\Middleware\GenerateInertiaMetadata::class,
+    ]);
+})
+```
+
+The middleware shares `seoPayload` (structured data) and `seo` (rendered HTML
+string, for legacy integrations) as lazy props.
+
+> [!NOTE]
+> Without [SSR](https://inertiajs.com/server-side-rendering), crawlers that
+> don't execute JavaScript won't see metadata rendered by your frontend
+> components. You should keep `@metadata` in your layout to provide an initial
+> value for crawlers.
+
+#### Inertia React
+
+When using Inertia with React, you can render the structured SEO payload
+directly in the head using the bundled React component. Publish it with:
+
+```bash
+php artisan vendor:publish --tag=honeystone-seo-inertia-react
+```
+
+This copies the component and its shared module to
+`resources/js/vendor/honeystone-seo/`.
+
+1. Register `GenerateInertiaMetadata` as shown above so `$page.props.seoPayload`
+   is shared. The `GenerateInertiaMetadataReact` middleware is deprecated;
+   replace it with `GenerateInertiaMetadata`.
+2. Render the component in your React layout so every page gets the tags:
+    ```tsx
+    // resources/js/Layouts/AppLayout.tsx
+    import SeoHead from "@/vendor/honeystone-seo/react/SeoHead";
+
+    export default function AppLayout({ children }) {
+        return (
+            <>
+                <SeoHead defaultTitle="My App" />
+                {children}
+            </>
+        );
+    }
+    ```
+    The component reads `seoPayload` from `usePage()` and outputs meta, Open
+    Graph, Twitter and JSON-LD tags. Pass `forceNoIndex` if you need to override
+    robots for specific responses.
+
+#### Inertia Vue 3
+
+The Vue 3 component works in exactly the same way and renders the same payload. 
+Publish it with:
+
+```bash
+php artisan vendor:publish --tag=honeystone-seo-inertia-vue
+```
+
+1. Register `GenerateInertiaMetadata` as shown above.
+2. Render the component in your layout so every page gets the tags:
+    ```vue
+    <!-- resources/js/Layouts/AppLayout.vue -->
+    <script setup>
+        import SeoHead from "@/vendor/honeystone-seo/vue3/SeoHead.vue";
+    </script>
+
+    <template>
+        <SeoHead default-title="My App" />
+        <slot />
+    </template>
+    ```
+    Pass `force-no-index` to override robots for specific responses.
+
+Use `--tag=honeystone-seo-inertia` to publish both components. Published files
+are yours to edit; re-publish with `--force` to update them after an upgrade.
+
 ## Changelog
 
 A list of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 
 ## License
 
-[MIT](LICENSE.md) © George Palmer, [Honeystone Consulting Ltd](https://honeystone.com)
+[MIT](LICENSE.md) © George Palmer,
+[Honeystone Consulting Ltd](https://honeystone.com)

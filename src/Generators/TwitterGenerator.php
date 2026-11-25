@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 
 use function view;
 
-final class TwitterGenerator implements GeneratesMetadata, ExportsArrayMetadata
+final class TwitterGenerator implements ExportsArrayMetadata, GeneratesMetadata
 {
     use HasConfig, HasData, HasDefaults;
 

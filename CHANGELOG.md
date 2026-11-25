@@ -1,12 +1,22 @@
 # Changelog
 
+## 2.2.0 - 2026-11-25
+
+- Deprecated `GenerateInertiaMetadataReact` in favour of
+  `GenerateInertiaMetadata`.
+- Improved Inertial React and Vue 3 integration.
+- Open Graph types (`article`, `book`, `profile`) and Twitter cards (`app`,
+  `player`) are now `JsonSerializable`.
+
 ## 2.1.0 - 2026-03-18
 
 - Added support for Spatie CSP v3.
 - Bumped deps to remove deprecation warnings on PHP 8.5.
 - Added support for Laravel 13.
-- Added the `ExportsArrayMetadata` contract and implemented it across all built-in generators.
-- Exposed `MetadataDirector::toArray()` for exporting structured metadata (useful for Inertia controllers).
+- Added the `ExportsArrayMetadata` contract and implemented it across all
+  built-in generators.
+- Exposed `MetadataDirector::toArray()` for exporting structured metadata
+  (useful for Inertia controllers).
 
 ## 2.0.0 - 2025-03-01
 
@@ -19,7 +29,8 @@
 
 ## 1.3.0 - 2024-08-21
 
-- New favicon generator using the [realfavicongenerator.net API](https://realfavicongenerator.net/api/non_interactive_api).
+- New favicon generator using the
+  [realfavicongenerator.net API](https://realfavicongenerator.net/api/non_interactive_api).
 
 ## 1.2.0 - 2024-08-02
 
@@ -27,11 +38,12 @@
 
 ## 1.1.0 - 2024-07-27
 
-- JSON-LD configured with this package will be automatically appended to the Graph or MultiTypedEntity when using the
-  `spatie/schema-org` package.
+- JSON-LD configured with this package will be automatically appended to the
+  Graph or MultiTypedEntity when using the `spatie/schema-org` package.
 - Doc blocks were updated to fix auto-complete issues.
 - The `jsonLdId()` method was added to set the schema id.
-- The `jsonLdSchema()` method was added to provide access to the underlying entity when using `spatie/schema-org`.
+- The `jsonLdSchema()` method was added to provide access to the underlying
+  entity when using `spatie/schema-org`.
 
 ## 1.0.0 - 2024-07-25
 

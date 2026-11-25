@@ -7,8 +7,11 @@ namespace Honeystone\Seo\OpenGraph;
 use DateTimeInterface;
 use Honeystone\Seo\OpenGraph\Contracts\Taggable;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
+use JsonSerializable;
 
-class ArticleProperties implements Taggable, Type
+use function array_filter;
+
+class ArticleProperties implements JsonSerializable, Taggable, Type
 {
     /**
      * @param ProfileProperties|array<ProfileProperties>|null $author
@@ -38,5 +41,24 @@ class ArticleProperties implements Taggable, Type
         if ($this->tag === null) {
             $this->tag = $tag;
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return array_filter(
+            [
+                'type' => $this->getType(),
+                'publishedTime' => $this->publishedTime?->format('c'),
+                'modifiedTime' => $this->modifiedTime?->format('c'),
+                'expirationTime' => $this->expirationTime?->format('c'),
+                'author' => $this->author,
+                'section' => $this->section,
+                'tag' => $this->tag,
+            ],
+            static fn (mixed $value): bool => $value !== null,
+        );
     }
 }
