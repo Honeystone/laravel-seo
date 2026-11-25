@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Honeystone\Seo\OpenGraph;
 
-use DateTime;
+use DateTimeInterface;
 use Honeystone\Seo\OpenGraph\Contracts\Taggable;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
 
@@ -15,9 +15,9 @@ class ArticleProperties implements Taggable, Type
      * @param string|array<string>|null $tag
      */
     public function __construct(
-        public readonly ?DateTime $publishedTime = null,
-        public readonly ?DateTime $modifiedTime = null,
-        public readonly ?DateTime $expirationTime = null,
+        public readonly ?DateTimeInterface $publishedTime = null,
+        public readonly ?DateTimeInterface $modifiedTime = null,
+        public readonly ?DateTimeInterface $expirationTime = null,
         public readonly ProfileProperties|array|null $author = null,
         public readonly ?string $section = null,
         public string|array|null $tag = null,

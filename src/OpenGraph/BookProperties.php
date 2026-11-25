@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Honeystone\Seo\OpenGraph;
 
-use DateTime;
+use DateTimeInterface;
 use Honeystone\Seo\OpenGraph\Contracts\Taggable;
 use Honeystone\Seo\OpenGraph\Contracts\Type;
 
@@ -17,7 +17,7 @@ class BookProperties implements Taggable, Type
     public function __construct(
         public readonly ProfileProperties|array|null $author = null,
         public readonly ?string $isbn = null,
-        public readonly ?DateTime $releaseDate = null,
+        public readonly ?DateTimeInterface $releaseDate = null,
         public string|array|null $tag = null,
     ) {}
 
