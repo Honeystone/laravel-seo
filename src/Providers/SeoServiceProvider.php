@@ -33,17 +33,18 @@ final class SeoServiceProvider extends PackageServiceProvider
     {
         $this->registerInertiaPublishing();
 
-        Blade::directive('metadata', static function (string ...$only): string {
+        Blade::directive('metadata', static function (string $expression = ''): string {
             if (function_exists('csp_nonce')) {
-                return '<?php echo seo()->jsonLdNonce(csp_nonce())->generate(...($only ?? [])); ?>';
+                return "<?php echo seo()->jsonLdNonce(csp_nonce())->generate($expression); ?>";
             }
 
             if (config('csp.nonce_generator') !== null) {
-                return '<?php echo seo()->jsonLdNonce(app(config(\'csp.nonce_generator\'))->generate())->generate(...($only ?? [])); ?>';
+                return "<?php echo seo()->jsonLdNonce(app(config('csp.nonce_generator'))->generate())->generate($expression); ?>";
             }
 
-            return '<?php echo seo()->generate(...($only ?? [])); ?>';
+            return "<?php echo seo()->generate($expression); ?>";
         });
+
         Blade::directive('openGraphPrefix', static fn (): string => '<?php echo seo()->openGraphPrefix(); ?>');
     }
 
